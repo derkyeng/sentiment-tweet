@@ -4,7 +4,7 @@ import axios from 'axios'
 import { useState, useEffect } from 'react'
 
 
-function App() {
+const App = () => {
   const [tweets, setTweets] = useState([])
 
   const fetchTweets = () =>{
@@ -17,11 +17,27 @@ function App() {
   useEffect(() => {
     fetchTweets();
   }, []);
-  console.log(setTweets)
+
+  console.log(tweets)
+
+  function renderTweets(){
+    return(
+      <div>
+        {tweets.map(tweet => 
+          <div key={tweet.id}>
+            <h1>{tweet.user.name}</h1>
+            <h3>{'@' + tweet.user.screen_name}</h3>
+            <p>{tweet.text}</p>
+          </div>
+        )}
+      </div>
+
+    )
+  }
 
   return (
     <div>
-      {tweets.map((tweet) => <p>{tweet.text}</p>)}
+      {renderTweets()}
     </div>
   )
 }
