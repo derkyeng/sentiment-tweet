@@ -5,12 +5,14 @@ const Twit = require('twit')
 require('dotenv').config();
 
 const port = 5000
-
-app.get('/hi', (req, res) => res.send(['hello', 'no']))
-
 app.listen(port, () => console.log(`Listening on ${port}`))
+app.use(express.json());
 
-console.log(process.env.CONSUMER_KEY)
+app.get('/hi', (req, res) => {
+    let tweets = []
+    searchTweet('covid').then(data => res.json(data))
+})
+
 
 var T = new Twit({
     consumer_key: process.env.CONSUMER_KEY,
@@ -21,6 +23,7 @@ var T = new Twit({
     strictSSL: true,
 })
 
-T.get('search/tweets', { q: 'banana since:2011-07-11', count: 1 }, function(err, data, response) {
-    console.log(data)
-  })
+async function searchTweet(searchQuery) {
+    const tweets = await T.get('search/tweets', {q: searchQuery + '-filter:retweets', count: 10, lang: 'en'})
+    return tweets.data.statuses
+}
