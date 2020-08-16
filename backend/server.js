@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express()
 const fetch = require('node-fetch')
+const Sentiment = require('sentiment')
+const sentiment = new Sentiment();
 const Twit = require('twit')
 require('dotenv').config();
 
@@ -8,10 +10,13 @@ const port = 5000
 app.listen(port, () => console.log(`Listening on ${port}`))
 app.use(express.json());
 
-app.get('/hi', (req, res) => {
-    let tweets = []
-    searchTweet('covid').then(data => res.json(data))
+app.post('/post', (req, res) => {
+    console.log(req.body)
+    let query = req.body.query
+    let tweets = searchTweet(query)
+    asignScore(tweets).then(data => res.json(data))
 })
+
 
 
 var T = new Twit({
@@ -24,6 +29,19 @@ var T = new Twit({
 })
 
 async function searchTweet(searchQuery) {
-    const tweets = await T.get('search/tweets', {q: searchQuery + '-filter:retweets', count: 10, lang: 'en'})
+    const tweets = await T.get('search/tweets', {q: searchQuery + '-filter:retweets', count: 3, lang: 'en'})
+    //console.log(tweets.data.statuses)
     return tweets.data.statuses
 }
+
+async function asignScore(tweets) {
+    let tweetList = await tweets
+    for (i = 0; i < tweetList.length; i++){
+        var result = sentiment.analyze(tweetList[i].text);
+        tweetList[i].score = result 
+    }
+    return tweetList
+}
+
+
+

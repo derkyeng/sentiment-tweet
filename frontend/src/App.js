@@ -1,43 +1,40 @@
 import React from 'react'
-//import Tweets from './Tweets'
 import axios from 'axios'
 import { useState, useEffect } from 'react'
+import Tweets from './components/Tweets'
 
 
 const App = () => {
   const [tweets, setTweets] = useState([])
 
-  const fetchTweets = () =>{
-    axios.get('/hi').then(
+  const fetchTweets = (searchQuery) =>{
+    axios.post('/post', {query: searchQuery}).then(
       res => {
         setTweets(res.data)
       }
     )
   }
   useEffect(() => {
-    fetchTweets();
+    fetchTweets('');
   }, []);
+
+  const submit = (event) => {
+    event.preventDefault()
+    fetchTweets(event.target.value)
+  }
 
   console.log(tweets)
 
-  function renderTweets(){
-    return(
-      <div>
-        {tweets.map(tweet => 
-          <div key={tweet.id}>
-            <h1>{tweet.user.name}</h1>
-            <h3>{'@' + tweet.user.screen_name}</h3>
-            <p>{tweet.text}</p>
-          </div>
-        )}
-      </div>
-
-    )
-  }
 
   return (
     <div>
-      {renderTweets()}
+      <form onSubmit={submit}>
+        <input type='text'></input>
+      </form>
+      {tweets.map((tweet, i) => 
+          <Tweets key={i} tweet={tweet} />
+      )}
+      <h2>It is {new Date().toLocaleTimeString()}.</h2>
     </div>
   )
 }
