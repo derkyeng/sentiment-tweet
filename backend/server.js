@@ -38,7 +38,8 @@ async function searchTweet(searchQuery) {
 async function asignScore(tweets) {
     let tweetList = await tweets
     for (i = 0; i < tweetList.length; i++){
-        var result = sentiment.analyze(tweetList[i].text);
+        var result = sentiment.analyze(tweetList[i].full_text);
+        console.log(result)
         tweetList[i].score = result 
     }
     return tweetList
