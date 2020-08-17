@@ -35,3 +35,5 @@ $ yarn start
 ```
 This will start the react application on port 3000.
 
+![alt text](<./image.jpg>)
+
