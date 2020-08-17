@@ -10,6 +10,7 @@ const port = 5000
 app.listen(port, () => console.log(`Listening on ${port}`))
 app.use(express.json());
 
+// Routes
 app.post('/post', (req, res) => {
     console.log(req.body)
     let query = req.body.query
@@ -17,8 +18,7 @@ app.post('/post', (req, res) => {
     asignScore(tweets).then(data => res.json(data))
 })
 
-
-
+// Initializes Twit object to access API functions.
 var T = new Twit({
     consumer_key: process.env.CONSUMER_KEY,
     consumer_secret: process.env.CONSUMER_SECRET,
@@ -28,12 +28,13 @@ var T = new Twit({
     strictSSL: true,
 })
 
+// Requests tweets from Twitter API.
 async function searchTweet(searchQuery) {
-    const tweets = await T.get('search/tweets', {q: searchQuery + '-filter:retweets', count: 50, lang: 'en'})
-    //console.log(tweets.data.statuses)
+    const tweets = await T.get('search/tweets', {q: searchQuery + '-filter:retweets', count: 50, lang: 'en', tweet_mode: 'extended'})
     return tweets.data.statuses
 }
 
+// Asigns each tweet a score based on the AFINN-en-165 sentiment analysis.
 async function asignScore(tweets) {
     let tweetList = await tweets
     for (i = 0; i < tweetList.length; i++){
