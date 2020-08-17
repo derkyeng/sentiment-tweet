@@ -29,7 +29,7 @@ var T = new Twit({
 })
 
 async function searchTweet(searchQuery) {
-    const tweets = await T.get('search/tweets', {q: searchQuery + '-filter:retweets', count: 3, lang: 'en'})
+    const tweets = await T.get('search/tweets', {q: searchQuery + '-filter:retweets', count: 50, lang: 'en'})
     //console.log(tweets.data.statuses)
     return tweets.data.statuses
 }
