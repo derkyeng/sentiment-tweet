@@ -29,7 +29,7 @@ const App = () => {
   return (
     <div>
       <form onSubmit={submit}>
-        <input type='text'></input>
+        <input type='text' placeholder='Search for...'></input>
       </form>
       {tweets.map((tweet, i) => 
           <Tweets key={i} tweet={tweet} />

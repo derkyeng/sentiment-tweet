@@ -1,0 +1,27 @@
+.tweet{
+    display: block;
+    margin: auto;
+    margin-top: 20px;
+    padding: 10px;
+    color: white;
+    width: 35%;
+    border-radius: 10px;
+    border-style: solid;
+    border-color: #1da1f2;
+    border-width: 2px;
+}
+.tweet h2{
+    font-family: 'Helvetica', 'Arial', sans-serif;
+    font-size: 25px;
+    font-weight: lighter;
+}
+
+.tweet h3{
+    margin-top: -15px;
+}
+
+.tweet p{
+    font-family: 'Helvetica', 'Arial', sans-serif;
+    font-size: 15px;
+    font-weight: lighter;
+}
