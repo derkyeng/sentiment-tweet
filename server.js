@@ -4,6 +4,7 @@ const fetch = require('node-fetch')
 const Sentiment = require('sentiment')
 const sentiment = new Sentiment();
 const Twit = require('twit')
+const path = require('path');
 require('dotenv').config();
 
 app.listen(process.env.PORT || 8080, () => console.log(`Listening on 8080`))
