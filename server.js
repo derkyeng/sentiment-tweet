@@ -9,6 +9,14 @@ require('dotenv').config();
 app.listen(process.env.PORT || 8080, () => console.log(`Listening on 8080`))
 app.use(express.json());
 
+if (process.env.NODE_ENV === 'production') {
+	app.use(express.static('client/build'));
+}
+
+app.get('*', (request, response) => {
+	response.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+});
+
 // Routes
 app.post('/', (req, res) => {
     console.log(req.body)
