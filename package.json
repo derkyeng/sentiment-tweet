@@ -6,5 +6,13 @@
     "node-fetch": "^2.6.0",
     "sentiment": "^5.0.2",
     "twit": "^2.2.11"
+  },
+  "scripts": {
+    "build": "cd client && npm run build",
+    "install": "cd client && npm install",
+    "start": "node server",
+    "server": "nodemon server",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   }
 }
