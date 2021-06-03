@@ -4,14 +4,22 @@ const fetch = require('node-fetch')
 const Sentiment = require('sentiment')
 const sentiment = new Sentiment();
 const Twit = require('twit')
+const path = require('path');
 require('dotenv').config();
 
-const port = 5000
-app.listen(port, () => console.log(`Listening on ${port}`))
+app.listen(process.env.PORT || 8080, () => console.log(`Listening on 8080`))
 app.use(express.json());
 
+if (process.env.NODE_ENV === 'production') {
+	app.use(express.static('client/build'));
+}
+
+app.get('*', (request, response) => {
+	response.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+});
+
 // Routes
-app.post('/post', (req, res) => {
+app.post('/', (req, res) => {
     console.log(req.body)
     let query = req.body.query
     let tweets = searchTweet(query)

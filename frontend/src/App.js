@@ -10,7 +10,7 @@ const App = () => {
 
   // Request tweets from server.
   const fetchTweets = (searchQuery) =>{
-    axios.post('/post', {query: searchQuery}).then(
+    axios.post('/', {query: searchQuery}).then(
       res => {
         setTweets(res.data)
       }
